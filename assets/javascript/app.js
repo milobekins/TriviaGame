@@ -3,6 +3,7 @@ var questionCounter = 0;
 var timer = 30;
 var correct = 0;
 var incorrect = 0;
+var progressBar = 0;
 var questionArray = [
     {
         question: "What country is named for its location on the equator?",
@@ -190,9 +191,20 @@ var newQuestion = function() {
         
         var timerSet = setInterval(function() {
             timer--;
+            progressBar = "width: " + ((timer / 30) * 100) + "%";
+            console.log(progressBar);
             $(".timeRemaining").css("color", "black");
             $(".timeRemaining").text(timer);
-            
+            $(".progress-bar").attr("style",progressBar);
+            $(".progress-bar").attr("aria-valuenow",timer);
+
+            if (timer < 15) {
+                $(".progress-bar").attr("class","progress-bar bg-warning");
+            }
+            if (timer < 10) {
+                $(".progress-bar").attr("class","progress-bar bg-danger");
+            }
+        
             if (timer < 10) {
                 $(".timeRemaining").css("color", "red");
             }
