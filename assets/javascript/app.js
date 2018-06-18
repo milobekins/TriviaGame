@@ -47,7 +47,73 @@ var questionArray = [
                 value: false,
             }
         ]
-    },  
+    },
+    {
+        question: "What is the English translation for the name of the German automaker Volkswagen?",
+        correctAnswer: "People's Car",
+        answers: [
+            {
+                answer: "People's Car",
+                value: true,
+            },
+            {
+                answer: "Old Wagon",
+                value: false,
+            },
+            {
+                answer: "True Style",
+                value: false,
+            },
+            {
+                answer: "German Auto",
+                value: false,
+            }
+        ]
+    }, 
+    {
+        question: "With twelve Oscar nominations and three wins, who is the most nominated male actor in Academy Awards history?",
+        correctAnswer: "Jack Nicholson",
+        answers: [
+            {
+                answer: "Brad Pitt",
+                value: false,
+            },
+            {
+                answer: "Julia Roberts",
+                value: false,
+            },
+            {
+                answer: "Morgan Freeman",
+                value: false,
+            },
+            {
+                answer: "Jack Nicholson",
+                value: true,
+            }
+        ]
+    }, 
+    {
+        question: "What is the Spanish word for meat?",
+        correctAnswer: "Carne",
+        answers: [
+            {
+                answer: "Meato",
+                value: false,
+            },
+            {
+                answer: "Carne",
+                value: true,
+            },
+            {
+                answer: "Bistec",
+                value: false,
+            },
+            {
+                answer: "Frijoles",
+                value: false,
+            }
+        ]
+    }, 
 ]
 
 var endQuestion = function() {
@@ -56,6 +122,7 @@ var endQuestion = function() {
     questionCounter++;
     $(".answers").empty();
     $(".question").empty();
+    $(".timeRemaining").empty();
     setTimeout(newQuestion, 1000);
 }
 
@@ -73,9 +140,31 @@ var endGame = function() {
     incorrect = 0;
 
 }
+
+var alertCorrect = function() {
+    var alert = $("<div>");
+    $(alert).attr("class","alert alert-success");
+    $(alert).text("Correct!")
+    $(".alertSpace").append(alert);
+}
+
+var alertIncorrect = function() {
+    var alert = $("<div>");
+    $(alert).attr("class","alert alert-danger");
+    $(alert).text("Incorrect. :(")
+    $(".alertSpace").append(alert);
+}
+
+var alertTimeout = function() {
+    var alert = $("<div>");
+    $(alert).attr("class","alert alert-danger");
+    $(alert).text("You Ran Out Of Time. :(")
+    $(".alertSpace").append(alert);
+}
 var newQuestion = function() {
     var buttonPressed = false;
-    
+    $(".alertSpace").empty();
+
     if (correct + incorrect === questionArray.length) {
         console.log("done");
         clearInterval(timerSet);
@@ -90,22 +179,31 @@ var newQuestion = function() {
             for (i=0;i < 4; i++) {
                 var answerDiv = $("<div>");
                 var answer = $("<button>").text(questionArray[questionCounter].answers[i].answer);
-                $(answer).attr("class","btn btn-primary");
+                $(answer).attr("class","btn btn-info");
                 $(answer).attr("value",questionArray[questionCounter].answers[i].value);
                 $(".answers").append(answerDiv);
                 $(answerDiv).append(answer);
+
             }
+  
         },1000)
         
         var timerSet = setInterval(function() {
             timer--;
+            $(".timeRemaining").css("color", "black");
             $(".timeRemaining").text(timer);
+            
+            if (timer < 10) {
+                $(".timeRemaining").css("color", "red");
+            }
 
             if (timer === 0) {
                 clearInterval(timerSet);
-                alert("You ran out of time! :(");
+                alertTimeout();
                 incorrect++;
+                setTimeout(function() {
                 endQuestion();
+                }, 1000)
             }
             $("button").on("click", function(){
                 if (buttonPressed === false) {
@@ -115,7 +213,7 @@ var newQuestion = function() {
                         correct++
                         console.log("correct: " + correct);
                         buttonPressed = true;
-                        alert("Correct!")
+                        alertCorrect();
                         endQuestion();
                     }
                     else {
@@ -123,12 +221,11 @@ var newQuestion = function() {
                         console.log("incorrect: " + incorrect);
                         buttonPressed = true;
                         $("button[value='true']").attr("style","border: red solid 3px")
+                        alertIncorrect();
                         setTimeout(function() {
-                            alert("Incorrect. The Correct Answer is: " + questionArray[questionCounter].correctAnswer)                  
                             endQuestion();
-                        }, 100)  
+                        }, 1000)  
                     }
-                
                 }
             })
         }, 1000)
@@ -137,7 +234,6 @@ var newQuestion = function() {
 
    
 }
-
 
 $(".question").text("Press Any Key To Begin");
 
