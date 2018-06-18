@@ -124,6 +124,7 @@ var endQuestion = function() {
     $(".answers").empty();
     $(".question").empty();
     $(".timeRemaining").empty();
+    $(".answerCard").css("border", "3px solid black");  
     setTimeout(newQuestion, 1000);
 }
 
@@ -134,6 +135,9 @@ var endGame = function() {
     $(".correct").text(correct);
     $(".incorrect").text(incorrect);
     $(".question").empty().text("Press Any Key To Begin");
+    $(".progress-bar").attr("class","progress-bar bg-info progress-bar-striped progress-bar-animated");
+    $(".header").css("text-shadow","2px 2px 3px teal");
+    $(".progress-bar").attr("style","");
     firstKeyPress = false;
     questionCounter = 0;
     timer = 30;
@@ -145,21 +149,23 @@ var endGame = function() {
 var alertCorrect = function() {
     var alert = $("<div>");
     $(alert).attr("class","alert alert-success");
-    $(alert).text("Correct!")
+    $(alert).text("CORRECT!")
     $(".alertSpace").append(alert);
+    $(".header").css("text-shadow","2px 2px 3px green");
 }
 
 var alertIncorrect = function() {
     var alert = $("<div>");
     $(alert).attr("class","alert alert-danger");
-    $(alert).text("Incorrect. :(")
+    $(alert).text("INCORRECT")
     $(".alertSpace").append(alert);
+    $(".header").css("text-shadow","2px 2px 3px red");
 }
 
 var alertTimeout = function() {
     var alert = $("<div>");
     $(alert).attr("class","alert alert-danger");
-    $(alert).text("You Ran Out Of Time. :(")
+    $(alert).text("OUT OF TIME")
     $(".alertSpace").append(alert);
 }
 var newQuestion = function() {
@@ -190,7 +196,6 @@ var newQuestion = function() {
         },1000)
         
         var timerSet = setInterval(function() {
-            timer--;
             progressBar = "width: " + ((timer / 30) * 100) + "%";
             console.log(progressBar);
             $(".timeRemaining").css("color", "black");
@@ -198,15 +203,22 @@ var newQuestion = function() {
             $(".progress-bar").attr("style",progressBar);
             $(".progress-bar").attr("aria-valuenow",timer);
 
+            if (timer <= 30) {
+                $(".progress-bar").attr("class","progress-bar bg-info progress-bar-striped progress-bar-animated");
+                $(".header").css("text-shadow","2px 2px 3px teal");
+            }
+
             if (timer < 15) {
-                $(".progress-bar").attr("class","progress-bar bg-warning");
+                $(".progress-bar").attr("class","progress-bar bg-warning progress-bar-striped progress-bar-animated");
+                $(".header").css("text-shadow","2px 2px 3px orange");
             }
             if (timer < 10) {
-                $(".progress-bar").attr("class","progress-bar bg-danger");
+                $(".progress-bar").attr("class","progress-bar bg-danger progress-bar-striped progress-bar-animated");
+                $(".header").css("text-shadow","2px 2px 3px red");
             }
         
             if (timer < 10) {
-                $(".timeRemaining").css("color", "red");
+                $(".timeRemaining").css("color", "red");  
             }
 
             if (timer === 0) {
@@ -217,6 +229,8 @@ var newQuestion = function() {
                 endQuestion();
                 }, 1000)
             }
+
+            timer--;
             $("button").on("click", function(){
                 if (buttonPressed === false) {
                     clearInterval(timerSet);

@@ -25,7 +25,10 @@ button {
     margin-left: 5%;
     margin-right: 5%;
     justify-content: center;
-    width: 90%;
-
-    
+    width: 90%; 
+}
+.alert {
+    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
 }
