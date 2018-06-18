@@ -1,6 +1,6 @@
 .header {
     background-image: url("../images/headerBackground.jpg");
-    text-shadow: 2px 2px teal;
+    text-shadow: 2px 2px 3px teal;
     border-bottom: 3px solid black;
     text-align: center;
 }

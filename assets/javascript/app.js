@@ -214,17 +214,20 @@ var newQuestion = function() {
                         console.log("correct: " + correct);
                         buttonPressed = true;
                         alertCorrect();
-                        endQuestion();
+                        setTimeout(function() {
+                            endQuestion();
+                        }, 1000)  
                     }
                     else {
                         incorrect++
                         console.log("incorrect: " + incorrect);
                         buttonPressed = true;
-                        $("button[value='true']").attr("style","border: red solid 3px")
+                        $("button[value='true']").attr("style","border: red solid 3px");
+                        $("button[value='false']").attr("class","btn btn-info disabled");
                         alertIncorrect();
                         setTimeout(function() {
                             endQuestion();
-                        }, 1000)  
+                        }, 2000)  
                     }
                 }
             })
