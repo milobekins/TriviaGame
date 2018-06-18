@@ -138,6 +138,8 @@ var endGame = function() {
     $(".progress-bar").attr("class","progress-bar bg-info progress-bar-striped progress-bar-animated");
     $(".header").css("text-shadow","2px 2px 3px teal");
     $(".progress-bar").attr("style","");
+    $(".answerCard").css("border", "3px solid black");  
+
     firstKeyPress = false;
     questionCounter = 0;
     timer = 30;
@@ -219,6 +221,10 @@ var newQuestion = function() {
         
             if (timer < 10) {
                 $(".timeRemaining").css("color", "red");  
+            }
+
+            if (timer < 5){
+                $(".answerCard").css("border","3px solid red")
             }
 
             if (timer === 0) {
